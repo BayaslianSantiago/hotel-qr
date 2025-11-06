@@ -35,6 +35,36 @@
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
     
+    .language-selector {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 8px;
+    }
+    
+    .lang-btn {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85em;
+      transition: all 0.3s ease;
+    }
+    
+    .lang-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
+    
+    .lang-btn.active {
+      background: rgba(255, 255, 255, 0.95);
+      color: #0a1128;
+    }
+    
     nav {
       display: flex;
       flex-wrap: wrap;
@@ -183,6 +213,12 @@
         font-size: 1.6em;
       }
       
+      .language-selector {
+        position: static;
+        justify-content: center;
+        margin-bottom: 15px;
+      }
+      
       nav button {
         padding: 10px 18px;
         font-size: 0.9em;
@@ -203,14 +239,19 @@
 </head>
 <body>
   <header>
+    <div class="language-selector">
+      <button onclick="changeLanguage('es')" class="lang-btn active" id="lang-es">🇦🇷 ES</button>
+      <button onclick="changeLanguage('en')" class="lang-btn" id="lang-en">🇬🇧 EN</button>
+      <button onclick="changeLanguage('pt')" class="lang-btn" id="lang-pt">🇧🇷 PT</button>
+    </div>
     <h1>Hotel Novotel & Ibis</h1>
     <nav>
-      <button onclick="showSection('novotel')">Room Service Novotel</button>
-      <button onclick="showSection('ibis')">Carta Ibis</button>
-      <button onclick="showSection('lavanderia')">Lavandería</button>
-      <button onclick="showSection('info')">Información General</button>
-      <button onclick="showSection('sustentabilidad')">Sustentabilidad</button>
-      <button onclick="showSection('codigo')">Código del Turista</button>
+      <button onclick="showSection('novotel')" data-es="Room Service Novotel" data-en="Novotel Room Service" data-pt="Room Service Novotel">Room Service Novotel</button>
+      <button onclick="showSection('ibis')" data-es="Carta Ibis" data-en="Ibis Menu" data-pt="Cardápio Ibis">Carta Ibis</button>
+      <button onclick="showSection('lavanderia')" data-es="Lavandería" data-en="Laundry" data-pt="Lavanderia">Lavandería</button>
+      <button onclick="showSection('info')" data-es="Información General" data-en="General Information" data-pt="Informação Geral">Información General</button>
+      <button onclick="showSection('sustentabilidad')" data-es="Sustentabilidad" data-en="Sustainability" data-pt="Sustentabilidade">Sustentabilidad</button>
+      <button onclick="showSection('codigo')" data-es="Código del Turista" data-en="Tourist Code" data-pt="Código do Turista">Código del Turista</button>
     </nav>
   </header>
 
@@ -367,6 +408,163 @@
   </a>
 
   <script>
+    let currentLanguage = 'es';
+    
+    const translations = {
+      es: {
+        novotelTitle: 'Room Service Novotel',
+        snacking: 'Snacking',
+        drinks: 'Bebidas',
+        frigobar: 'Frigobar',
+        roomService24: 'Room Service 24 hs',
+        ibisTitle: 'Carta Ibis',
+        desserts: 'Postres',
+        laundryTitle: 'Lavandería Novotel & Ibis',
+        laundryInfo: 'Horario e información:',
+        laundryText: 'Servicio normal disponible de lunes a viernes hasta las 11. Las prendas se devuelven al día siguiente antes de las 20hs.<br>Servicio express disponible de lunes a sábados hasta las 11 AM. Las prendas serán devueltas el mismo día antes de las 20hs.<br>No hay servicio los domingos y feriados.',
+        responsibility: 'Responsabilidad:',
+        responsibilityText: 'En caso de pérdida o daño, la responsabilidad del hotel está limitada a 5 veces el costo del lavado. El hotel no se hace responsable por deterioros preexistentes, encogimiento o decoloración del material.',
+        laundry: 'Lavandería',
+        dryCleaning: 'Limpieza en seco',
+        sustainabilityTitle: 'Sustentabilidad',
+        sustainabilityText: 'En nuestro hotel, promovemos prácticas responsables como la conservación del agua, el uso eficiente de energía y la reducción de plásticos, reemplazándolos por opciones ecológicas.',
+        codeTitle: 'Código de Conducta del Turista Responsable',
+        codeText: 'Valore las tradiciones y costumbres locales.<br>• Participe en festivales y eventos locales.<br>• Vístase apropiadamente según las normas culturales.<br>• Pregunte antes de tomar fotografías.<br>• Apoye la economía local.',
+        infoTitle: 'Información General',
+        gym: '🏋️ Gimnasio:',
+        gymTime: 'abierto 24 hs',
+        breakfast: '🍳 Desayuno:',
+        breakfastTime: 'de 6:30 AM a 10:00 AM',
+        breakfastWeekend: 'Fines de semana y feriados: hasta las 11:00 AM',
+        restaurant: '🍽️ Restaurante:',
+        restaurantTime: 'de 07:00 a 00:00 hs',
+        whatsapp: '💬 Contactar Recepción',
+        footerAddress: 'Avenida Corrientes 1334, CABA, Buenos Aires, Argentina'
+      },
+      en: {
+        novotelTitle: 'Novotel Room Service',
+        snacking: 'Snacking',
+        drinks: 'Drinks',
+        frigobar: 'Minibar',
+        roomService24: '24-Hour Room Service',
+        ibisTitle: 'Ibis Menu',
+        desserts: 'Desserts',
+        laundryTitle: 'Novotel & Ibis Laundry',
+        laundryInfo: 'Schedule and information:',
+        laundryText: 'Regular service available Monday to Friday until 11 AM. Garments will be returned the next day before 8 PM.<br>Express service available Monday to Saturday until 11 AM. Garments will be returned the same day before 8 PM.<br>No service on Sundays and holidays.',
+        responsibility: 'Liability:',
+        responsibilityText: 'In case of loss or damage, the hotel\'s liability is limited to 5 times the cost of washing. The hotel is not responsible for pre-existing damage, shrinkage or discoloration of the material.',
+        laundry: 'Laundry',
+        dryCleaning: 'Dry Cleaning',
+        sustainabilityTitle: 'Sustainability',
+        sustainabilityText: 'At our hotel, we promote responsible practices such as water conservation, efficient energy use and reduction of plastics, replacing them with ecological options.',
+        codeTitle: 'Responsible Tourist Code of Conduct',
+        codeText: 'Value local traditions and customs.<br>• Participate in local festivals and events.<br>• Dress appropriately according to cultural norms.<br>• Ask before taking photographs.<br>• Support the local economy.',
+        infoTitle: 'General Information',
+        gym: '🏋️ Gym:',
+        gymTime: 'open 24 hours',
+        breakfast: '🍳 Breakfast:',
+        breakfastTime: 'from 6:30 AM to 10:00 AM',
+        breakfastWeekend: 'Weekends and holidays: until 11:00 AM',
+        restaurant: '🍽️ Restaurant:',
+        restaurantTime: 'from 07:00 to 00:00',
+        whatsapp: '💬 Contact Reception',
+        footerAddress: 'Avenida Corrientes 1334, CABA, Buenos Aires, Argentina'
+      },
+      pt: {
+        novotelTitle: 'Room Service Novotel',
+        snacking: 'Lanches',
+        drinks: 'Bebidas',
+        frigobar: 'Frigobar',
+        roomService24: 'Room Service 24 horas',
+        ibisTitle: 'Cardápio Ibis',
+        desserts: 'Sobremesas',
+        laundryTitle: 'Lavanderia Novotel & Ibis',
+        laundryInfo: 'Horário e informações:',
+        laundryText: 'Serviço normal disponível de segunda a sexta até às 11h. As peças serão devolvidas no dia seguinte antes das 20h.<br>Serviço expresso disponível de segunda a sábado até às 11h. As peças serão devolvidas no mesmo dia antes das 20h.<br>Não há serviço aos domingos e feriados.',
+        responsibility: 'Responsabilidade:',
+        responsibilityText: 'Em caso de perda ou dano, a responsabilidade do hotel está limitada a 5 vezes o custo da lavagem. O hotel não se responsabiliza por danos preexistentes, encolhimento ou descoloração do material.',
+        laundry: 'Lavanderia',
+        dryCleaning: 'Limpeza a seco',
+        sustainabilityTitle: 'Sustentabilidade',
+        sustainabilityText: 'Em nosso hotel, promovemos práticas responsáveis como conservação de água, uso eficiente de energia e redução de plásticos, substituindo-os por opções ecológicas.',
+        codeTitle: 'Código de Conduta do Turista Responsável',
+        codeText: 'Valorize as tradições e costumes locais.<br>• Participe de festivais e eventos locais.<br>• Vista-se apropriadamente de acordo com as normas culturais.<br>• Pergunte antes de tirar fotografias.<br>• Apoie a economia local.',
+        infoTitle: 'Informação Geral',
+        gym: '🏋️ Academia:',
+        gymTime: 'aberta 24 horas',
+        breakfast: '🍳 Café da manhã:',
+        breakfastTime: 'das 6:30 às 10:00',
+        breakfastWeekend: 'Fins de semana e feriados: até às 11:00',
+        restaurant: '🍽️ Restaurante:',
+        restaurantTime: 'das 07:00 às 00:00',
+        whatsapp: '💬 Contatar Recepção',
+        footerAddress: 'Avenida Corrientes 1334, CABA, Buenos Aires, Argentina'
+      }
+    };
+    
+    function changeLanguage(lang) {
+      currentLanguage = lang;
+      
+      // Update active button
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('lang-' + lang).classList.add('active');
+      
+      // Update navigation buttons
+      document.querySelectorAll('nav button').forEach(btn => {
+        if (btn.getAttribute('data-' + lang)) {
+          btn.textContent = btn.getAttribute('data-' + lang);
+        }
+      });
+      
+      // Update content
+      const t = translations[lang];
+      
+      // Novotel section
+      document.querySelector('#novotel h2').textContent = t.novotelTitle;
+      const novotelH3 = document.querySelectorAll('#novotel h3');
+      if (novotelH3[0]) novotelH3[0].textContent = t.snacking;
+      if (novotelH3[1]) novotelH3[1].textContent = t.drinks;
+      if (novotelH3[2]) novotelH3[2].textContent = t.frigobar;
+      if (novotelH3[3]) novotelH3[3].textContent = t.roomService24;
+      
+      // Ibis section
+      document.querySelector('#ibis h2').textContent = t.ibisTitle;
+      const ibisH3 = document.querySelectorAll('#ibis h3');
+      if (ibisH3[0]) ibisH3[0].textContent = t.desserts;
+      if (ibisH3[1]) ibisH3[1].textContent = t.drinks;
+      
+      // Laundry section
+      document.querySelector('#lavanderia h2').textContent = t.laundryTitle;
+      const laundryP = document.querySelectorAll('#lavanderia p');
+      if (laundryP[0]) laundryP[0].innerHTML = '<strong>' + t.laundryInfo + '</strong><br>' + t.laundryText;
+      if (laundryP[1]) laundryP[1].innerHTML = '<strong>' + t.responsibility + '</strong><br>' + t.responsibilityText;
+      const laundryH3 = document.querySelectorAll('#lavanderia h3');
+      if (laundryH3[0]) laundryH3[0].textContent = t.laundry;
+      if (laundryH3[1]) laundryH3[1].textContent = t.dryCleaning;
+      
+      // Sustainability section
+      document.querySelector('#sustentabilidad h2').textContent = t.sustainabilityTitle;
+      document.querySelector('#sustentabilidad p').textContent = t.sustainabilityText;
+      
+      // Code section
+      document.querySelector('#codigo h2').textContent = t.codeTitle;
+      document.querySelector('#codigo p').innerHTML = t.codeText;
+      
+      // Info section
+      document.querySelector('#info h2').textContent = t.infoTitle;
+      const infoLi = document.querySelectorAll('#info ul li');
+      if (infoLi[0]) infoLi[0].innerHTML = '<strong>' + t.gym + '</strong> ' + t.gymTime;
+      if (infoLi[1]) infoLi[1].innerHTML = '<strong>' + t.breakfast + '</strong> ' + t.breakfastTime + '<br><em>' + t.breakfastWeekend + '</em>';
+      if (infoLi[2]) infoLi[2].innerHTML = '<strong>' + t.restaurant + '</strong> ' + t.restaurantTime;
+      
+      // WhatsApp button
+      document.querySelector('.whatsapp-button').textContent = t.whatsapp;
+      
+      // Footer
+      document.querySelector('footer p').innerHTML = '<strong>Novotel Room Service</strong><br>' + t.footerAddress + '<br>1512 Novo | 1300 Ibis';
+    }
+    
     function showSection(id) {
       document.querySelectorAll('.content-section').forEach(section => {
         section.classList.remove('active');
