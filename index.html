@@ -1,134 +1,157 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Info Hotel QR</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Servicios Hotel Novotel & Ibis</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans">
-
-  <header class="bg-blue-800 text-white text-center py-6 shadow-md">
-    <h1 class="text-2xl font-bold">Bienvenido a Novotel & Ibis</h1>
-    <p class="text-sm mt-1">Accedé a la información de tu estadía</p>
+<body>
+  <header>
+    <h1>Hotel Novotel & Ibis</h1>
+    <nav>
+      <button onclick="showSection('novotel')">Room Service Novotel</button>
+      <button onclick="showSection('ibis')">Carta Ibis</button>
+      <button onclick="showSection('lavanderia')">Lavandería</button>
+      <button onclick="showSection('sustentabilidad')">Sustentabilidad</button>
+      <button onclick="showSection('codigo')">Código del Turista</button>
+    </nav>
   </header>
 
-  <main class="max-w-3xl mx-auto px-4 py-8 space-y-10">
-
+  <main>
     <!-- Room Service Novotel -->
-    <section id="room-service" class="bg-white p-6 rounded-2xl shadow">
-      <h2 class="text-xl font-bold text-blue-700 mb-4">Room Service Novotel</h2>
-      <div class="space-y-4 text-sm">
-        <h3 class="font-semibold text-lg text-gray-800">Snacking</h3>
-        <p><strong>Ensalada Caesar - 17.000,00</strong><br>Selección de verdes, pollo, croutons y aderezo caesar<br><em>Horario: 12:30 - 00:00 PM</em></p>
-        <p><strong>Vegetarian Burger - 17.500,00 (Vegan)</strong><br>Hamburguesa vegetariana con pan de papa, lentejas, quinoa, zanahorias, tomates, cheddar & rúcula con papas fritas.</p>
-        <p><strong>Tostado Argentino - 9.200,00</strong><br>Tradicional tostado de jamón cocido y queso.</p>
-        <p><strong>Brusqueta de Salmón - 22.000,00</strong><br>Avocado toast, salmón ahumado, huevo 63º, sal de eneldo.</p>
-        <p><strong>Pizza Margherita - 11.000,00</strong><br>Pizza Margherita.</p>
-        <p><strong>Empanadas de Carne - 10.500,00</strong><br>3 empanadas de osobuco.</p>
-        <p><strong>Burger de Carne - 21.000,00</strong><br>Hamburguesa de asado y cuadril, rúcula, tomate y compota de cebollas, con papas fritas.</p>
+    <section id="novotel" class="content-section active">
+      <h2>Room Service Novotel</h2>
+      <h3>Snacking</h3>
+      <ul>
+        <li><strong>Ensalada Caesar</strong> - 17.000,00<br>Selección de verdes, pollo, croutons y aderezo caesar.<br><em>Servicio disponible de 12:30 - 00:00 PM</em></li>
+        <li><strong>Vegetarian Burger</strong> - 17.500,00 (Vegan)<br>Hamburguesa vegetariana con pan de papa, lentejas, quinoa, zanahorias, tomates, cheddar & rúcula con papas fritas.</li>
+        <li><strong>Tostado Argentino</strong> - 9.200,00<br>Tradicional tostado de jamón cocido y queso.</li>
+        <li><strong>Brusqueta de Salmón</strong> - 22.000,00<br>Avocado toast, salmón ahumado, huevo 63º, sal de eneldo.</li>
+        <li><strong>Pizza Margherita</strong> - 11.000,00</li>
+        <li><strong>Empanadas de Carne</strong> - 10.500,00<br>3 empanadas de osobuco.</li>
+        <li><strong>Burger de carne</strong> - 21.000,00<br>Hamburguesa de asado y cuadril, rúcula, tomate y compota de cebollas con papas fritas.</li>
+      </ul>
 
-        <h3 class="font-semibold text-lg text-gray-800 mt-6">Bebidas</h3>
-        <p><strong>Cerveza Imperial - 6.800,00</strong><br>Cerveza Imperial<br><em>Horario: 11 AM - 23:30 PM</em></p>
-        <p><strong>Agua/Gaseosa - 4.500,00</strong><br>Agua con y sin gas / Gaseosa línea Coca-Cola.</p>
-        <p><strong>Cerveza - 7.900,00</strong><br>Heineken.</p>
+      <h3>Bebidas</h3>
+      <ul>
+        <li><strong>Cerveza Imperial</strong> - 6.800,00<br><em>Servicio disponible de 11 AM - 23:30 PM</em></li>
+        <li><strong>Agua/Gaseosa</strong> - 4.500,00</li>
+        <li><strong>Cerveza Heineken</strong> - 7.900,00</li>
+      </ul>
 
-        <h3 class="font-semibold text-lg text-gray-800 mt-6">Frigobar</h3>
-        <p><strong>Papas Pringles - 5.000,00</strong><br>Pringles 60g.</p>
-        <p><strong>Ferrero Rocher - 6.000,00</strong><br>Barra de chocolate.</p>
-        <p><strong>Frutos secos - 4.500,00</strong><br>Frutos secos.</p>
+      <h3>Frigobar</h3>
+      <ul>
+        <li>Papas Pringles - 5.000,00</li>
+        <li>Ferrero Rocher - 6.000,00</li>
+        <li>Frutos secos - 4.500,00</li>
+      </ul>
 
-        <h3 class="font-semibold text-lg text-gray-800 mt-6">Room Service 24 hs</h3>
-        <p><strong>Empanadas de Carne - 10.500,00</strong><br>3 empanadas de osobuco.</p>
-        <p><strong>Pizza Margarita - 11.000,00</strong><br>Pizza Margherita.</p>
-        <p><strong>Tostado Argentino - 9.200,00</strong><br>Clásico tostado de jamón y queso.</p>
-        <p><strong>Ensalada Caesar - 17.000,00</strong><br>Hojas verdes, pollo, croutons, panceta crispy y aderezo caesar.</p>
-        <p><strong>Medialunas de J y Q - 8.700,00</strong><br>3 medialunas rellenas de jamón y queso calientes.</p>
-        <p><strong>Medialuna - 4.000,00</strong><br>3 medialunas dulces o saladas.</p>
-      </div>
+      <h3>Room Service 24 hs</h3>
+      <ul>
+        <li>Empanadas de Carne - 10.500,00</li>
+        <li>Pizza Margarita - 11.000,00</li>
+        <li>Tostado Argentino - 9.200,00</li>
+        <li>Ensalada Caesar - 17.000,00</li>
+        <li>Medialunas de J y Q - 8.700,00</li>
+        <li>Medialuna - 4.000,00</li>
+      </ul>
     </section>
 
     <!-- Carta Ibis -->
-    <section id="carta-ibis" class="bg-white p-6 rounded-2xl shadow">
-      <h2 class="text-xl font-bold text-blue-700 mb-4">Carta Ibis</h2>
-      <div class="space-y-3 text-sm">
-        <p><strong>Spaghetis - 18.000,00</strong><br>Spaghetis.</p>
-        <p><strong>Penne Rigati - 18.000,00</strong><br>Penne Rigati.</p>
-        <p><strong>Agnolotis de Muzzarella y Calabaza - 19.000,00</strong><br>Agnolotis de muzzarella y calabaza.</p>
-        <p><strong>Pechuga de Pollo - 22.000,00</strong><br>Puré de zanahorias & cardamomo, salsa Tapenade.</p>
-        <p><strong>Tostada de Campo, Palta, Rúcula y Tomates Cherry - 10.500,00</strong></p>
-        <p><strong>Tabla Mixta de Charcutería para Compartir - 30.000,00</strong></p>
-        <p><strong>Ensalada del Chef - 19.000,00</strong><br>Tomate, rúcula, boconccinos, cherry confitados, aceitunas negras, remolacha y salsa de yogurth.<br><em>Horario: 12:30 - 16:00 PM (solo planta baja)</em></p>
-        <p><strong>Ojo de Bife - 28.000,00 (Gluten Free)</strong><br>Con vegetales asados & salsa gremolata.</p>
-        <p><strong>Empanadas - 9.000,00</strong><br>3 un. carne de osobuco.</p>
-        <p><strong>Pizza - 9.000,00</strong><br>Mozzarella.</p>
-        <p><strong>Tostado - 8.500,00</strong><br>Jamón y queso.</p>
-        <p><strong>Ibis Burger - 18.000,00</strong><br>Hamburguesa de asado, rúcula, tomate, cebolla caramelizada, cheddar y papas.</p>
-        <p><strong>Milanesa de Ternera - 21.000,00</strong><br>Con papas crocantes.</p>
+    <section id="ibis" class="content-section">
+      <h2>Carta Ibis</h2>
+      <ul>
+        <li>Spaghetis - 18.000,00</li>
+        <li>Penne Rigati - 18.000,00</li>
+        <li>Agnolotis de Muzzarella y Calabaza - 19.000,00</li>
+        <li>Pechuga de pollo - 22.000,00</li>
+        <li>Tostada de campo, palta, rúcula y tomates cherry - 10.500,00</li>
+        <li>Tabla mixta de charcutería para compartir - 30.000,00</li>
+        <li>Ensalada del Chef - 19.000,00</li>
+        <li><em>Servicio disponible de 12:30 - 16:00 PM (solo planta baja)</em></li>
+        <li>Ojo de bife - 28.000,00 (Gluten Free)</li>
+        <li>Empanadas - 9.000,00</li>
+        <li>Pizza - 9.000,00</li>
+        <li>Tostado - 8.500,00</li>
+        <li>Ibis Burger - 18.000,00</li>
+        <li>Milanesa de ternera - 21.000,00</li>
+      </ul>
 
-        <h3 class="font-semibold text-lg text-gray-800 mt-6">Postres</h3>
-        <p><strong>Budín de Pan - 7.500,00</strong></p>
-        <p><strong>Ensalada de Frutas - 6.000,00</strong><br>Con frutas naturales.</p>
-        <p><strong>Helado - 8.000,00</strong><br>2 bochas: Chocolate, Americana, Frutilla, Dulce de leche, Vainilla.</p>
+      <h3>Postres</h3>
+      <ul>
+        <li>Budín de pan - 7.500,00</li>
+        <li>Ensalada de frutas - 6.000,00</li>
+        <li>Helado (2 bochas) - 8.000,00</li>
+      </ul>
 
-        <h3 class="font-semibold text-lg text-gray-800 mt-6">Bebidas</h3>
-        <p><strong>Aguas - 4.200,00</strong><br>Con y sin gas.</p>
-        <p><strong>Cerveza - 6.500,00</strong><br>Heineken.</p>
-        <p><strong>Gaseosa línea Coca-Cola - 4.200,00</strong></p>
-        <p><strong>Cerveza Imperial - 6.200,00</strong><br>Imperial Lager, Roja, IPA.</p>
-
-        <h3 class="font-semibold text-lg text-gray-800 mt-6">Menú 24 hs en Bar</h3>
-        <p><strong>Pizza - 8.600,00</strong><br>Pizza de mozzarella y albahaca.</p>
-        <p><strong>Tostado de Jamón y Queso - 7.500,00</strong></p>
-        <p><strong>Ensalada del Chef - 18.000,00</strong><br>Tomate cherry, rúcula, aceitunas negras, zanahorias, remolacha y dressing de aceto.</p>
-      </div>
+      <h3>Bebidas</h3>
+      <ul>
+        <li>Aguas - 4.200,00</li>
+        <li>Cerveza Heineken - 6.500,00</li>
+        <li>Gaseosa línea Coca - 4.200,00</li>
+        <li>Cerveza Imperial - 6.200,00</li>
+      </ul>
     </section>
 
-    <!-- Lavandería Novotel & Ibis -->
-    <section id="lavanderia" class="bg-white p-6 rounded-2xl shadow">
-      <h2 class="text-xl font-bold text-blue-700 mb-4">Lavandería Novotel & Ibis</h2>
-      <div class="space-y-3 text-sm">
-        <h3 class="font-semibold text-lg text-gray-800">Horario - Información</h3>
-        <p>Solo planchado 40% menos.</p>
-        <p>Servicio normal disponible de lunes a viernes hasta las 11 AM. Las prendas se devuelven al día siguiente antes de las 20hs.</p>
-        <p>Servicio Express disponible de lunes a sábados hasta las 11 AM. Las prendas serán devueltas ese mismo día antes de las 20hs.</p>
-        <p>No hay servicio los domingos y feriados.</p>
-        <p>En caso de pérdida o daño, la responsabilidad del hotel está limitada a 5 veces el costo del lavado.</p>
-        <p><strong>Servicio Express:</strong> 50% adicional.</p>
-        <p><em>In case of loss or damage the hotel’s liability is limited to 5 times the cost of washing.</em></p>
+    <!-- Lavandería -->
+    <section id="lavanderia" class="content-section">
+      <h2>Lavandería Novotel & Ibis</h2>
+      <p><strong>Horario e información:</strong><br>
+      Servicio normal disponible de lunes a viernes hasta las 11. Las prendas se devuelven al día siguiente antes de las 20hs.<br>
+      Servicio express disponible de lunes a sábados hasta las 11 AM. Las prendas serán devueltas el mismo día antes de las 20hs.<br>
+      No hay servicio los domingos y feriados.</p>
+      <p><strong>Responsabilidad:</strong><br>
+      En caso de pérdida o daño, la responsabilidad del hotel está limitada a 5 veces el costo del lavado. El hotel no se hace responsable por deterioros preexistentes, encogimiento o decoloración del material.</p>
 
-        <h3 class="font-semibold text-lg text-gray-800 mt-6">Responsabilidad</h3>
-        <p>El hotel no se hace responsable por deterioros preexistentes, ni encogimiento o decoloración del material.</p>
+      <h3>Lavandería</h3>
+      <ul>
+        <li>Camisa - 7.500,00</li>
+        <li>Pantalón/Falda - 10.200,00</li>
+        <li>Suéter - 12.350,00</li>
+        <li>Campera - 24.250,00</li>
+        <li>Bermudas - 7.100,00</li>
+        <li>Chomba - 6.800,00</li>
+        <li>Remera - 6.600,00</li>
+        <li>Short/Sport Short - 6.600,00</li>
+        <li>Ropa interior - 3.300,00</li>
+        <li>Pijama - 11.250,00</li>
+        <li>Calcetines/Socks - 3.300,00</li>
+      </ul>
 
-        <h3 class="font-semibold text-lg text-gray-800 mt-6">Lavandería</h3>
-        <p><strong>Camisas/Shirts - 7.500,00</strong></p>
-        <p><strong>Pantalón / Falda - 10.200,00</strong></p>
-        <p><strong>Suéter - 12.350,00</strong></p>
-        <p><strong>Campera - 24.250,00</strong></p>
-        <p><strong>Bermudas - 7.100,00</strong></p>
-        <p><strong>Chomba - 6.800,00</strong></p>
-        <p><strong>Remera - 6.600,00</strong></p>
-        <p><strong>Short / Sport Short - 6.600,00</strong></p>
-        <p><strong>Ropa interior - 3.300,00</strong></p>
-        <p><strong>Pijama - 11.250,00</strong></p>
-        <p><strong>Calcetines / Socks - 3.300,00</strong></p>
-
-        <h3 class="font-semibold text-lg text-gray-800 mt-6">Limpieza en seco</h3>
-        <p><strong>Camisa / Blusa de seda - 10.200,00</strong></p>
-        <p><strong>Pantalón - 10.200,00</strong></p>
-        <p><strong>Saco - 17.150,00</strong></p>
-        <p><strong>Suéter - 12.350,00</strong></p>
-        <p><strong>Corbata - 6.050,00</strong></p>
-        <p><strong>Vestido - 17.150,00</strong></p>
-        <p><strong>Vestido de fiesta - 50.300,00</strong></p>
-      </div>
+      <h3>Limpieza en seco</h3>
+      <ul>
+        <li>Camisa/Blusa de seda - 10.200,00</li>
+        <li>Pantalón - 10.200,00</li>
+        <li>Saco - 17.150,00</li>
+        <li>Suéter - 12.350,00</li>
+        <li>Corbata - 6.050,00</li>
+        <li>Vestido - 17.150,00</li>
+        <li>Vestido de fiesta - 50.300,00</li>
+      </ul>
     </section>
 
+    <!-- Sustentabilidad -->
+    <section id="sustentabilidad" class="content-section">
+      <h2>Sustentabilidad</h2>
+      <p>En nuestro hotel, promovemos prácticas responsables como la conservación del agua, el uso eficiente de energía y la reducción de plásticos, reemplazándolos por opciones ecológicas.</p>
+    </section>
+
+    <!-- Código de Conducta -->
+    <section id="codigo" class="content-section">
+      <h2>Código de Conducta del Turista Responsable</h2>
+      <p>Valore las tradiciones y costumbres locales.<br>
+      • Participe en festivales y eventos locales.<br>
+      • Vístase apropiadamente según las normas culturales.<br>
+      • Pregunte antes de tomar fotografías.<br>
+      • Apoye la economía local.</p>
+    </section>
   </main>
 
-  <footer class="text-center text-xs text-gray-500 py-6">
-    <p>&copy; 2025 Novotel & Ibis - Información para huéspedes</p>
+  <footer>
+    <p>© 2025 Hotel Novotel & Ibis</p>
   </footer>
 
+  <script src="script.js"></script>
 </body>
 </html>
