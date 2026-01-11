@@ -7,7 +7,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   
   <style>
-    /* --- TUS ESTILOS ORIGINALES (INTACTOS) --- */
+    /* --- ESTILOS ORIGINALES --- */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -18,17 +18,12 @@
     }
     header {
       background: linear-gradient(180deg, #0a1128 0%, #1a2947 100%);
-      color: white;
-      text-align: center;
-      padding: 2em 1em;
+      color: white; text-align: center; padding: 2em 1em;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
     header h1 {
-      font-size: 2.2em;
-      font-weight: 300;
-      letter-spacing: 2px;
-      margin-bottom: 0.5em;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      font-size: 2.2em; font-weight: 300; letter-spacing: 2px;
+      margin-bottom: 0.5em; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
     .language-selector {
       position: absolute; top: 20px; right: 20px; display: flex; gap: 8px;
@@ -39,6 +34,7 @@
     }
     .lang-btn:hover { background: rgba(255, 255, 255, 0.3); transform: scale(1.05); }
     .lang-btn.active { background: rgba(255, 255, 255, 0.95); color: #0a1128; }
+    
     nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 1.5em; padding: 0 1em; }
     nav button {
       background: rgba(255, 255, 255, 0.95); color: #0a1128; border: 2px solid rgba(255, 255, 255, 0.3);
@@ -46,10 +42,13 @@
       transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
     nav button:hover { background: #ffffff; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3); }
+    
     main { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+    
     .content-section { display: none; animation: fadeIn 0.5s ease-in; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     .content-section.active { display: block; }
+    
     h2 {
       color: #ffffff; font-size: 2em; font-weight: 300; letter-spacing: 1px;
       border-bottom: 3px solid rgba(255, 255, 255, 0.3); padding-bottom: 15px; margin-bottom: 25px;
@@ -59,6 +58,7 @@
       color: #ffffff; font-size: 1.4em; font-weight: 400; margin: 25px 0 15px 0;
       padding-left: 10px; border-left: 4px solid rgba(255, 255, 255, 0.5);
     }
+    
     ul { list-style: none; padding: 0; }
     ul li {
       background: rgba(255, 255, 255, 0.95); color: #0a1128; padding: 18px 20px; margin-bottom: 12px;
@@ -69,6 +69,7 @@
       background: rgba(255, 255, 255, 0.95); color: #0a1128; padding: 18px 20px; margin-bottom: 15px;
       border-radius: 12px; line-height: 1.7; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
+    
     footer {
       background: linear-gradient(180deg, #1a2947 0%, #0a1128 100%); color: white; text-align: center;
       padding: 25px 20px; font-size: 0.95em; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
@@ -79,26 +80,37 @@
       color: white; font-weight: 600; padding: 15px 25px; border-radius: 50px; text-decoration: none;
       box-shadow: 0 6px 25px rgba(37, 211, 102, 0.4); transition: all 0.3s ease; z-index: 999; font-size: 1em;
     }
+    
+    @media (max-width: 768px) {
+      header h1 { font-size: 1.6em; }
+      .language-selector { position: static; justify-content: center; margin-bottom: 15px; }
+      nav button { padding: 10px 18px; font-size: 0.9em; }
+    }
 
-    /* Estilos extra para la carga */
-    .loader { text-align: center; padding: 40px; font-size: 1.2em; color: rgba(255,255,255,0.7); }
+    /* Extras */
+    .loader { text-align: center; padding: 40px; font-size: 1.2em; opacity: 0.8; }
     .precio { float: right; font-weight: bold; color: #1a2947; }
+    .legal-box { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+    .legal-box p { background: transparent; color: white; box-shadow: none; padding: 5px; margin: 0; }
   </style>
 </head>
 <body>
   <header>
     <div class="language-selector">
-      <button class="lang-btn active">🇦🇷 ES</button>
-      </div>
+      <button onclick="changeLanguage('es')" class="lang-btn active" id="lang-es">🇦🇷 ES</button>
+      <button onclick="changeLanguage('en')" class="lang-btn" id="lang-en">🇬🇧 EN</button>
+      <button onclick="changeLanguage('pt')" class="lang-btn" id="lang-pt">🇧🇷 PT</button>
+    </div>
     
     <h1 id="main-title">Cargando Hotel...</h1>
     
-    <nav id="dynamic-nav">
-       </nav>
+    <nav id="dynamic-nav"></nav>
     
-    <nav style="margin-top: 10px;">
-        <button onclick="showSection('lavanderia')">Lavandería</button>
-        <button onclick="showSection('info')">Info General</button>
+    <nav style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+        <button onclick="renderLaundry()" id="btn-lav">Lavandería</button>
+        <button onclick="showSection('info')" id="btn-info">Información</button>
+        <button onclick="showSection('sustentabilidad')" id="btn-sus">Sustentabilidad</button>
+        <button onclick="showSection('codigo')" id="btn-cod">Código Turista</button>
     </nav>
   </header>
 
@@ -108,120 +120,222 @@
     <div id="menu-dinamico"></div>
 
     <section id="lavanderia" class="content-section">
-      <h2>Lavandería</h2>
-      <p>Servicio disponible de Lunes a Viernes. Consulte en recepción.</p>
+      <h2 id="title-lav">Lavandería</h2>
+      
+      <div class="legal-box">
+          <p id="txt-lav-1"><strong>🕒 Horarios:</strong> Lunes a Viernes hasta las 11hs (Entrega día siguiente).</p>
+          <p id="txt-lav-2" style="font-size: 0.9em; opacity: 0.8; margin-top:10px;">
+          <strong>⚠️ Responsabilidad:</strong> Limitada a 5 veces el costo del lavado.
+          </p>
+      </div>
+
+      <div id="lista-precios-lavanderia"></div>
+    </section>
+
+    <section id="sustentabilidad" class="content-section">
+      <h2 id="title-sus">Sustentabilidad</h2>
+      <p id="txt-sus">En nuestro hotel, promovemos prácticas responsables como la conservación del agua y reducción de plásticos.</p>
+    </section>
+
+    <section id="codigo" class="content-section">
+      <h2 id="title-cod">Código de Conducta</h2>
+      <p id="txt-cod">Valore las tradiciones locales, participe en festivales y apoye la economía local.</p>
     </section>
 
     <section id="info" class="content-section">
-      <h2>Información General</h2>
+      <h2 id="title-info">Información General</h2>
       <ul>
-        <li><strong>🏋️ Gimnasio:</strong> abierto 24 hs</li>
-        <li><strong>🍳 Desayuno:</strong> de 6:30 AM a 10:00 AM</li>
-        <li><strong>🍽️ Restaurante:</strong> de 07:00 a 00:00 hs</li>
+        <li><strong id="lbl-gym">🏋️ Gimnasio:</strong> abierto 24 hs</li>
+        <li><strong id="lbl-bkf">🍳 Desayuno:</strong> 6:30 AM - 10:00 AM</li>
+        <li><strong id="lbl-rst">🍽️ Restaurante:</strong> 07:00 - 00:00 hs</li>
       </ul>
     </section>
   </main>
 
   <footer>
-    <p><strong>Gestión Digital de Menú</strong><br>
-    Precios sujetos a modificación en tiempo real.</p>
+    <p><strong>Novotel & Ibis</strong><br>
+    Avenida Corrientes 1334, CABA</p>
   </footer>
 
   <a href="https://wa.me/541163534421" target="_blank" class="whatsapp-button">
-    💬 Contactar Recepción
+    💬 WhatsApp
   </a>
 
   <script>
-    // --- 1. PEGA AQUÍ EL LINK DE TU GOOGLE SHEET (CSV) ---
+    // --- 1. CONFIGURACIÓN ---
+    // Link corregido con output=csv
     const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSRAsR0lBDpaN_aLY-nsevWiX-zMsqu9hJwUKaUzKv3BWBBlEW29rfdw3je_Ib7TJAr32M7bGeaVIi5/pub?output=csv';
 
-    // --- 2. DETECTAR HOTEL ---
-    // Busca si la URL tiene ?hotel=novotel o ?hotel=ibis
+    let currentLanguage = 'es'; 
+    let allData = [];
+
+    // Detectar Hotel
     const params = new URLSearchParams(window.location.search);
-    // Si no hay parametro, por defecto muestra Novotel
     const currentHotel = params.get('hotel') || 'novotel'; 
 
-    // Actualizar título de la página
-    const titulos = {
-        'novotel': 'Room Service Novotel',
-        'ibis': 'Carta Ibis'
+    // Textos estáticos de la interfaz (Títulos y Botones)
+    const uiTranslations = {
+        es: {
+            titles: { novotel: 'Room Service Novotel', ibis: 'Carta Ibis', lav: 'Lavandería', info: 'Información', sus: 'Sustentabilidad', cod: 'Código de Conducta' },
+            btns: { lav: 'Lavandería', info: 'Información', sus: 'Sustentabilidad', cod: 'Código Turista' },
+            legal: { 
+                t1: '🕒 Horarios: Lunes a Viernes hasta las 11hs.', 
+                t2: '⚠️ Responsabilidad: Limitada a 5 veces el costo.'
+            },
+            info: { gym: '🏋️ Gimnasio:', bkf: '🍳 Desayuno:', rst: '🍽️ Restaurante:' },
+            sus: 'Promovemos prácticas responsables y reducción de plásticos.',
+            cod: 'Valore las tradiciones y apoye la economía local.'
+        },
+        en: {
+            titles: { novotel: 'Novotel Room Service', ibis: 'Ibis Menu', lav: 'Laundry', info: 'Information', sus: 'Sustainability', cod: 'Tourist Code' },
+            btns: { lav: 'Laundry', info: 'Info', sus: 'Sustainability', cod: 'Tourist Code' },
+            legal: { 
+                t1: '🕒 Schedule: Mon-Fri until 11 AM.', 
+                t2: '⚠️ Liability: Limited to 5 times the cost.'
+            },
+            info: { gym: '🏋️ Gym:', bkf: '🍳 Breakfast:', rst: '🍽️ Restaurant:' },
+            sus: 'We promote responsible practices and plastic reduction.',
+            cod: 'Value local traditions and support the local economy.'
+        },
+        pt: {
+            titles: { novotel: 'Room Service Novotel', ibis: 'Cardápio Ibis', lav: 'Lavanderia', info: 'Informação', sus: 'Sustentabilidade', cod: 'Código de Conduta' },
+            btns: { lav: 'Lavanderia', info: 'Info', sus: 'Sustentabilidade', cod: 'Código' },
+            legal: { 
+                t1: '🕒 Horários: Seg-Sex até às 11h.', 
+                t2: '⚠️ Responsabilidade: Limitada a 5 vezes o custo.'
+            },
+            info: { gym: '🏋️ Academia:', bkf: '🍳 Café da Manhã:', rst: '🍽️ Restaurante:' },
+            sus: 'Promovemos práticas responsáveis e redução de plásticos.',
+            cod: 'Valorize as tradições e apoie a economia local.'
+        }
     };
-    document.getElementById('main-title').textContent = titulos[currentHotel] || 'Menú Digital';
-    document.title = titulos[currentHotel];
 
-    // --- 3. CARGAR DATOS ---
+    // --- 2. INICIALIZAR ---
     function init() {
+        // Poner títulos iniciales
+        updateStaticUI();
+
         Papa.parse(SHEET_URL, {
-            download: true,
-            header: true,
+            download: true, header: true,
             complete: function(results) {
-                renderMenu(results.data);
+                allData = results.data;
+                renderApp();
             },
             error: function(err) {
-                document.getElementById('loading-msg').textContent = "Error al cargar menú. Intente recargar.";
-                console.error(err);
+                document.getElementById('loading-msg').textContent = "Error de conexión / Connection error";
             }
         });
     }
 
-    function renderMenu(data) {
+    // --- 3. CAMBIAR IDIOMA ---
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        // Botones activos
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('lang-' + lang).classList.add('active');
+        
+        // Actualizar textos fijos y redibujar menú
+        updateStaticUI();
+        renderApp();
+        
+        // Si estaba viendo lavandería, redibujarla
+        if(document.getElementById('lavanderia').style.display === 'block') {
+            renderLaundry();
+        }
+    }
+
+    function updateStaticUI() {
+        const t = uiTranslations[currentLanguage];
+        // Título Principal
+        const mainTitle = currentHotel === 'novotel' ? t.titles.novotel : t.titles.ibis;
+        document.getElementById('main-title').textContent = mainTitle;
+        document.title = mainTitle;
+
+        // Botones Fijos
+        document.getElementById('btn-lav').textContent = t.btns.lav;
+        document.getElementById('btn-info').textContent = t.btns.info;
+        document.getElementById('btn-sus').textContent = t.btns.sus;
+        document.getElementById('btn-cod').textContent = t.btns.cod;
+
+        // Títulos de Secciones
+        document.getElementById('title-lav').textContent = t.titles.lav;
+        document.getElementById('title-info').textContent = t.titles.info;
+        document.getElementById('title-sus').textContent = t.titles.sus;
+        document.getElementById('title-cod').textContent = t.titles.cod;
+
+        // Textos varios
+        document.getElementById('txt-lav-1').innerHTML = `<strong>${t.legal.t1}</strong>`;
+        document.getElementById('txt-lav-2').innerHTML = `<strong>${t.legal.t2}</strong>`;
+        document.getElementById('lbl-gym').textContent = t.info.gym;
+        document.getElementById('lbl-bkf').textContent = t.info.bkf;
+        document.getElementById('lbl-rst').textContent = t.info.rst;
+        document.getElementById('txt-sus').textContent = t.sus;
+        document.getElementById('txt-cod').textContent = t.cod;
+    }
+
+    // --- 4. RENDERIZAR MENÚ (COMIDA) ---
+    function renderApp() {
         const container = document.getElementById('menu-dinamico');
         const navContainer = document.getElementById('dynamic-nav');
         
-        // A. Filtrar platos: Solo los de ESTE hotel y que estén disponibles
-        const platos = data.filter(item => 
+        container.innerHTML = '';
+        navContainer.innerHTML = '';
+
+        const colNombre = `nombre_${currentLanguage}`;
+        const colDesc = `descripcion_${currentLanguage}`;
+        const colCat = `categoria_${currentLanguage}`;
+
+        // Filtrar platos del hotel
+        const platos = allData.filter(item => 
             item.hotel && 
             item.hotel.toLowerCase() === currentHotel.toLowerCase() && 
             item.disponible === 'TRUE'
         );
 
-        if (platos.length === 0) {
-            document.getElementById('loading-msg').textContent = "No hay platos disponibles por el momento.";
+        if (platos.length === 0 && allData.length > 0) {
+            document.getElementById('loading-msg').textContent = "No hay menú disponible.";
             return;
+        } else if (allData.length > 0) {
+             document.getElementById('loading-msg').style.display = 'none';
         }
 
-        document.getElementById('loading-msg').style.display = 'none';
+        // Agrupar categorías
+        const categorias = [...new Set(platos.map(item => item[colCat]))];
 
-        // B. Agrupar por categorías (Set elimina duplicados)
-        const categorias = [...new Set(platos.map(item => item.categoria))];
-
-        // C. Generar HTML
         categorias.forEach((catNombre, index) => {
-            // 1. Crear Botón de Navegación
+            if (!catNombre) return;
+
+            // Botón Nav
             const btn = document.createElement('button');
             btn.textContent = catNombre;
-            // Al hacer clic, scrollea hasta la sección
             btn.onclick = () => {
-                showSection('menu-dinamico'); // Asegura que se vea el menú
+                showSection('menu-dinamico');
                 document.getElementById('cat-' + index).scrollIntoView({behavior: 'smooth'});
             };
             navContainer.appendChild(btn);
 
-            // 2. Crear Sección de Platos
+            // Sección
             const section = document.createElement('section');
             section.id = 'cat-' + index;
-            section.className = 'content-section active'; // Visible por defecto
-            section.style.display = 'block'; // Forzar display block dentro del container
+            section.className = 'content-section active';
+            section.style.display = 'block';
 
-            // Título Categoría
             const h2 = document.createElement('h2');
             h2.textContent = catNombre;
             section.appendChild(h2);
 
-            // Lista de Platos
             const ul = document.createElement('ul');
-            const platosDeEstaCat = platos.filter(p => p.categoria === catNombre);
+            const platosCat = platos.filter(p => p[colCat] === catNombre);
 
-            platosDeEstaCat.forEach(plato => {
+            platosCat.forEach(plato => {
                 const li = document.createElement('li');
-                // Formato de precio (Argentina)
                 const precio = parseFloat(plato.precio).toLocaleString('es-AR', {
                     style: 'currency', currency: 'ARS', minimumFractionDigits: 0
                 });
 
                 li.innerHTML = `
-                    <strong>${plato.nombre}</strong>
-                    ${plato.descripcion ? `<br><small style="opacity:0.8">${plato.descripcion}</small>` : ''}
+                    <strong>${plato[colNombre]}</strong>
+                    ${plato[colDesc] ? `<br><small style="opacity:0.8">${plato[colDesc]}</small>` : ''}
                     <span class="precio">${precio}</span>
                 `;
                 ul.appendChild(li);
@@ -232,19 +346,54 @@
         });
     }
 
-    // Función simple para ocultar menú y mostrar info estática
+    // --- 5. RENDERIZAR LAVANDERÍA ---
+    function renderLaundry() {
+        showSection('lavanderia');
+        const container = document.getElementById('lista-precios-lavanderia');
+        container.innerHTML = '';
+
+        const colNombre = `nombre_${currentLanguage}`;
+        const colCat = `categoria_${currentLanguage}`;
+
+        const items = allData.filter(item => 
+            item.hotel === 'lavanderia' && item.disponible === 'TRUE'
+        );
+
+        const categorias = [...new Set(items.map(item => item[colCat]))];
+
+        categorias.forEach(catNombre => {
+            if (!catNombre) return;
+            
+            const h3 = document.createElement('h3');
+            h3.textContent = catNombre;
+            container.appendChild(h3);
+
+            const ul = document.createElement('ul');
+            const prendas = items.filter(p => p[colCat] === catNombre);
+
+            prendas.forEach(prenda => {
+                const li = document.createElement('li');
+                const precio = parseFloat(prenda.precio).toLocaleString('es-AR', {
+                    style: 'currency', currency: 'ARS', minimumFractionDigits: 0
+                });
+
+                li.innerHTML = `<strong>${prenda[colNombre]}</strong><span class="precio">${precio}</span>`;
+                ul.appendChild(li);
+            });
+            container.appendChild(ul);
+        });
+    }
+
     function showSection(id) {
-        // Ocultar todo
-        document.getElementById('menu-dinamico').style.display = 'none';
-        document.getElementById('lavanderia').style.display = 'none';
-        document.getElementById('info').style.display = 'none';
-        
-        // Mostrar lo pedido
+        const sections = ['menu-dinamico', 'lavanderia', 'info', 'sustentabilidad', 'codigo'];
+        sections.forEach(sec => {
+            const el = document.getElementById(sec);
+            if(el) el.style.display = 'none';
+        });
         const target = document.getElementById(id);
         if(target) target.style.display = 'block';
     }
 
-    // Arrancar la app
     init();
   </script>
 </body>
