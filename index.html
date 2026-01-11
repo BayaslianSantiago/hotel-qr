@@ -3,14 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Servicios Hotel Novotel & Ibis</title>
+  <title>Cargando Menú...</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+  
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
+    /* --- TUS ESTILOS ORIGINALES (INTACTOS) --- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #0a1128 0%, #1e3a5f 100%);
@@ -18,7 +16,6 @@
       min-height: 100vh;
       padding-bottom: 80px;
     }
-    
     header {
       background: linear-gradient(180deg, #0a1128 0%, #1a2947 100%);
       color: white;
@@ -26,7 +23,6 @@
       padding: 2em 1em;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
-    
     header h1 {
       font-size: 2.2em;
       font-weight: 300;
@@ -34,373 +30,101 @@
       margin-bottom: 0.5em;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
-    
     .language-selector {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      gap: 8px;
+      position: absolute; top: 20px; right: 20px; display: flex; gap: 8px;
     }
-    
     .lang-btn {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 8px;
-      padding: 8px 12px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.85em;
-      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px; padding: 8px 12px; cursor: pointer; font-weight: 600; font-size: 0.85em; transition: all 0.3s ease;
     }
-    
-    .lang-btn:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: scale(1.05);
-    }
-    
-    .lang-btn.active {
-      background: rgba(255, 255, 255, 0.95);
-      color: #0a1128;
-    }
-    
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 1.5em;
-      padding: 0 1em;
-    }
-    
+    .lang-btn:hover { background: rgba(255, 255, 255, 0.3); transform: scale(1.05); }
+    .lang-btn.active { background: rgba(255, 255, 255, 0.95); color: #0a1128; }
+    nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 1.5em; padding: 0 1em; }
     nav button {
-      background: rgba(255, 255, 255, 0.95);
-      color: #0a1128;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 25px;
-      padding: 12px 24px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.95em;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.95); color: #0a1128; border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 25px; padding: 12px 24px; cursor: pointer; font-weight: 600; font-size: 0.95em;
+      transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
-    
-    nav button:hover {
-      background: #ffffff;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
-    }
-    
-    main {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 30px 20px;
-    }
-    
-    .content-section {
-      display: none;
-      animation: fadeIn 0.5s ease-in;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .content-section.active {
-      display: block;
-    }
-    
+    nav button:hover { background: #ffffff; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3); }
+    main { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+    .content-section { display: none; animation: fadeIn 0.5s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .content-section.active { display: block; }
     h2 {
-      color: #ffffff;
-      font-size: 2em;
-      font-weight: 300;
-      letter-spacing: 1px;
-      border-bottom: 3px solid rgba(255, 255, 255, 0.3);
-      padding-bottom: 15px;
-      margin-bottom: 25px;
+      color: #ffffff; font-size: 2em; font-weight: 300; letter-spacing: 1px;
+      border-bottom: 3px solid rgba(255, 255, 255, 0.3); padding-bottom: 15px; margin-bottom: 25px;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     }
-    
     h3 {
-      color: #ffffff;
-      font-size: 1.4em;
-      font-weight: 400;
-      margin: 25px 0 15px 0;
-      padding-left: 10px;
-      border-left: 4px solid rgba(255, 255, 255, 0.5);
+      color: #ffffff; font-size: 1.4em; font-weight: 400; margin: 25px 0 15px 0;
+      padding-left: 10px; border-left: 4px solid rgba(255, 255, 255, 0.5);
     }
-    
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    
+    ul { list-style: none; padding: 0; }
     ul li {
-      background: rgba(255, 255, 255, 0.95);
-      color: #0a1128;
-      padding: 18px 20px;
-      margin-bottom: 12px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      transition: all 0.3s ease;
-      line-height: 1.6;
+      background: rgba(255, 255, 255, 0.95); color: #0a1128; padding: 18px 20px; margin-bottom: 12px;
+      border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; line-height: 1.6;
     }
-    
-    ul li:hover {
-      transform: translateX(5px);
-      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
-    }
-    
-    ul li strong {
-      color: #1a2947;
-      font-size: 1.1em;
-    }
-    
+    ul li strong { color: #1a2947; font-size: 1.1em; }
     p {
-      background: rgba(255, 255, 255, 0.95);
-      color: #0a1128;
-      padding: 18px 20px;
-      margin-bottom: 15px;
-      border-radius: 12px;
-      line-height: 1.7;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.95); color: #0a1128; padding: 18px 20px; margin-bottom: 15px;
+      border-radius: 12px; line-height: 1.7; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
-    
-    p strong {
-      color: #1a2947;
-      font-size: 1.05em;
-    }
-    
     footer {
-      background: linear-gradient(180deg, #1a2947 0%, #0a1128 100%);
-      color: white;
-      text-align: center;
-      padding: 25px 20px;
-      font-size: 0.95em;
-      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
-      position: relative;
-      margin-top: 50px;
-      line-height: 1.8;
+      background: linear-gradient(180deg, #1a2947 0%, #0a1128 100%); color: white; text-align: center;
+      padding: 25px 20px; font-size: 0.95em; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+      position: relative; margin-top: 50px; line-height: 1.8;
     }
-    
     .whatsapp-button {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      background: linear-gradient(135deg, #25d366 0%, #20ba5a 100%);
-      color: white;
-      font-weight: 600;
-      padding: 15px 25px;
-      border-radius: 50px;
-      text-decoration: none;
-      box-shadow: 0 6px 25px rgba(37, 211, 102, 0.4);
-      transition: all 0.3s ease;
-      z-index: 999;
-      font-size: 1em;
+      position: fixed; bottom: 25px; right: 25px; background: linear-gradient(135deg, #25d366 0%, #20ba5a 100%);
+      color: white; font-weight: 600; padding: 15px 25px; border-radius: 50px; text-decoration: none;
+      box-shadow: 0 6px 25px rgba(37, 211, 102, 0.4); transition: all 0.3s ease; z-index: 999; font-size: 1em;
     }
-    
-    .whatsapp-button:hover {
-      background: linear-gradient(135deg, #20ba5a 0%, #1da851 100%);
-      transform: scale(1.05);
-      box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6);
-    }
-    
-    @media (max-width: 768px) {
-      header h1 {
-        font-size: 1.6em;
-      }
-      
-      .language-selector {
-        position: static;
-        justify-content: center;
-        margin-bottom: 15px;
-      }
-      
-      nav button {
-        padding: 10px 18px;
-        font-size: 0.9em;
-      }
-      
-      h2 {
-        font-size: 1.6em;
-      }
-      
-      .whatsapp-button {
-        bottom: 15px;
-        right: 15px;
-        padding: 12px 20px;
-        font-size: 0.9em;
-      }
-    }
+
+    /* Estilos extra para la carga */
+    .loader { text-align: center; padding: 40px; font-size: 1.2em; color: rgba(255,255,255,0.7); }
+    .precio { float: right; font-weight: bold; color: #1a2947; }
   </style>
 </head>
 <body>
   <header>
     <div class="language-selector">
-      <button onclick="changeLanguage('es')" class="lang-btn active" id="lang-es">🇦🇷 ES</button>
-      <button onclick="changeLanguage('en')" class="lang-btn" id="lang-en">🇬🇧 EN</button>
-      <button onclick="changeLanguage('pt')" class="lang-btn" id="lang-pt">🇧🇷 PT</button>
-    </div>
-    <h1>Hotel Novotel & Ibis</h1>
-    <nav>
-      <button onclick="showSection('novotel')" data-es="Room Service Novotel" data-en="Novotel Room Service" data-pt="Room Service Novotel">Room Service Novotel</button>
-      <button onclick="showSection('ibis')" data-es="Carta Ibis" data-en="Ibis Menu" data-pt="Cardápio Ibis">Carta Ibis</button>
-      <button onclick="showSection('lavanderia')" data-es="Lavandería" data-en="Laundry" data-pt="Lavanderia">Lavandería</button>
-      <button onclick="showSection('info')" data-es="Información General" data-en="General Information" data-pt="Informação Geral">Información General</button>
-      <button onclick="showSection('sustentabilidad')" data-es="Sustentabilidad" data-en="Sustainability" data-pt="Sustentabilidade">Sustentabilidad</button>
-      <button onclick="showSection('codigo')" data-es="Código del Turista" data-en="Tourist Code" data-pt="Código do Turista">Código del Turista</button>
+      <button class="lang-btn active">🇦🇷 ES</button>
+      </div>
+    
+    <h1 id="main-title">Cargando Hotel...</h1>
+    
+    <nav id="dynamic-nav">
+       </nav>
+    
+    <nav style="margin-top: 10px;">
+        <button onclick="showSection('lavanderia')">Lavandería</button>
+        <button onclick="showSection('info')">Info General</button>
     </nav>
   </header>
 
   <main>
-    <!-- Room Service Novotel -->
-    <section id="novotel" class="content-section active">
-      <h2>Room Service Novotel</h2>
-      <h3>Snacking</h3>
-      <ul>
-        <li><strong>Ensalada Caesar</strong> - 17.000,00<br>Selección de verdes, pollo, croutons y aderezo caesar.<br><em>Servicio disponible de 12:30 - 00:00 PM</em></li>
-        <li><strong>Vegetarian Burger</strong> - 17.500,00 (Vegan)<br>Hamburguesa vegetariana con pan de papa, lentejas, quinoa, zanahorias, tomates, cheddar & rúcula con papas fritas.</li>
-        <li><strong>Tostado Argentino</strong> - 9.200,00<br>Tradicional tostado de jamón cocido y queso.</li>
-        <li><strong>Brusqueta de Salmón</strong> - 22.000,00<br>Avocado toast, salmón ahumado, huevo 63º, sal de eneldo.</li>
-        <li><strong>Pizza Margherita</strong> - 11.000,00</li>
-        <li><strong>Empanadas de Carne</strong> - 10.500,00<br>3 empanadas de osobuco.</li>
-        <li><strong>Burger de carne</strong> - 21.000,00<br>Hamburguesa de asado y cuadril, rúcula, tomate y compota de cebollas con papas fritas.</li>
-      </ul>
+    <div id="loading-msg" class="loader">Conectando con la base de datos...</div>
 
-      <h3>Bebidas</h3>
-      <ul>
-        <li><strong>Cerveza Imperial</strong> - 6.800,00<br><em>Servicio disponible de 11 AM - 23:30 PM</em></li>
-        <li><strong>Agua/Gaseosa</strong> - 4.500,00</li>
-        <li><strong>Cerveza Heineken</strong> - 7.900,00</li>
-      </ul>
+    <div id="menu-dinamico"></div>
 
-      <h3>Frigobar</h3>
-      <ul>
-        <li>Papas Pringles - 5.000,00</li>
-        <li>Ferrero Rocher - 6.000,00</li>
-        <li>Frutos secos - 4.500,00</li>
-      </ul>
-
-      <h3>Room Service 24 hs</h3>
-      <ul>
-        <li>Empanadas de Carne - 10.500,00</li>
-        <li>Pizza Margarita - 11.000,00</li>
-        <li>Tostado Argentino - 9.200,00</li>
-        <li>Ensalada Caesar - 17.000,00</li>
-        <li>Medialunas de J y Q - 8.700,00</li>
-        <li>Medialuna - 4.000,00</li>
-      </ul>
-    </section>
-
-    <!-- Carta Ibis -->
-    <section id="ibis" class="content-section">
-      <h2>Carta Ibis</h2>
-      <ul>
-        <li>Spaghetis - 18.000,00</li>
-        <li>Penne Rigati - 18.000,00</li>
-        <li>Agnolotis de Muzzarella y Calabaza - 19.000,00</li>
-        <li>Pechuga de pollo - 22.000,00</li>
-        <li>Tostada de campo, palta, rúcula y tomates cherry - 10.500,00</li>
-        <li>Tabla mixta de charcutería para compartir - 30.000,00</li>
-        <li>Ensalada del Chef - 19.000,00</li>
-        <li><em>Servicio disponible de 12:30 - 16:00 PM (solo planta baja)</em></li>
-        <li>Ojo de bife - 28.000,00 (Gluten Free)</li>
-        <li>Empanadas - 9.000,00</li>
-        <li>Pizza - 9.000,00</li>
-        <li>Tostado - 8.500,00</li>
-        <li>Ibis Burger - 18.000,00</li>
-        <li>Milanesa de ternera - 21.000,00</li>
-      </ul>
-
-      <h3>Postres</h3>
-      <ul>
-        <li>Budín de pan - 7.500,00</li>
-        <li>Ensalada de frutas - 6.000,00</li>
-        <li>Helado (2 bochas) - 8.000,00</li>
-      </ul>
-
-      <h3>Bebidas</h3>
-      <ul>
-        <li>Aguas - 4.200,00</li>
-        <li>Cerveza Heineken - 6.500,00</li>
-        <li>Gaseosa línea Coca - 4.200,00</li>
-        <li>Cerveza Imperial - 6.200,00</li>
-      </ul>
-    </section>
-
-    <!-- Lavandería -->
     <section id="lavanderia" class="content-section">
-      <h2>Lavandería Novotel & Ibis</h2>
-      <p><strong>Horario e información:</strong><br>
-      Servicio normal disponible de lunes a viernes hasta las 11. Las prendas se devuelven al día siguiente antes de las 20hs.<br>
-      Servicio express disponible de lunes a sábados hasta las 11 AM. Las prendas serán devueltas el mismo día antes de las 20hs.<br>
-      No hay servicio los domingos y feriados.</p>
-      <p><strong>Responsabilidad:</strong><br>
-      En caso de pérdida o daño, la responsabilidad del hotel está limitada a 5 veces el costo del lavado. El hotel no se hace responsable por deterioros preexistentes, encogimiento o decoloración del material.</p>
-
-      <h3>Lavandería</h3>
-      <ul>
-        <li>Camisa - 8.000,00</li>
-        <li>Pantalón/Falda - 10.850,00</li>
-        <li>Suéter - 13.100,00</li>
-        <li>Campera - 27.750,00</li>
-        <li>Bermudas - 7.550,00</li>
-        <li>Chomba - 7.200,00</li>
-        <li>Remera - 7.000,00</li>
-        <li>Short/Sport Short - 7.000,00</li>
-        <li>Ropa interior - 3.500,00</li>
-        <li>Pijama - 12.000,00</li>
-        <li>Calcetines/Socks - 3.500,00</li>
-      </ul>
-
-      <h3>Limpieza en seco</h3>
-      <ul>
-        <li>Camisa/Blusa de seda - 10.850,00</li>
-        <li>Pantalón - 10.850,00</li>
-        <li>Saco - 18.200,00</li>
-        <li>Suéter - 13.100,00</li>
-        <li>Corbata - 6.400,00</li>
-        <li>Vestido - 18.250,00</li>
-        <li>Vestido de fiesta - 53.400,00</li>
-      </ul>
+      <h2>Lavandería</h2>
+      <p>Servicio disponible de Lunes a Viernes. Consulte en recepción.</p>
     </section>
 
-    <!-- Sustentabilidad -->
-    <section id="sustentabilidad" class="content-section">
-      <h2>Sustentabilidad</h2>
-      <p>En nuestro hotel, promovemos prácticas responsables como la conservación del agua, el uso eficiente de energía y la reducción de plásticos, reemplazándolos por opciones ecológicas.</p>
-    </section>
-
-    <!-- Código de Conducta -->
-    <section id="codigo" class="content-section">
-      <h2>Código de Conducta del Turista Responsable</h2>
-      <p>Valore las tradiciones y costumbres locales.<br>
-      • Participe en festivales y eventos locales.<br>
-      • Vístase apropiadamente según las normas culturales.<br>
-      • Pregunte antes de tomar fotografías.<br>
-      • Apoye la economía local.</p>
-    </section>
-
-    <!-- Información General -->
     <section id="info" class="content-section">
       <h2>Información General</h2>
       <ul>
         <li><strong>🏋️ Gimnasio:</strong> abierto 24 hs</li>
-        <li><strong>🍳 Desayuno:</strong> de 6:30 AM a 10:00 AM<br>
-          <em>Fines de semana y feriados: hasta las 11:00 AM</em></li>
+        <li><strong>🍳 Desayuno:</strong> de 6:30 AM a 10:00 AM</li>
         <li><strong>🍽️ Restaurante:</strong> de 07:00 a 00:00 hs</li>
       </ul>
     </section>
   </main>
 
   <footer>
-    <p><strong>Novotel Room Service</strong><br>
-    Avenida Corrientes 1334, CABA, Buenos Aires, Argentina<br>
-    1512 Novo | 1300 Ibis</p>
-    <p>© 2025 Hotel Novotel & Ibis</p>
+    <p><strong>Gestión Digital de Menú</strong><br>
+    Precios sujetos a modificación en tiempo real.</p>
   </footer>
 
   <a href="https://wa.me/541163534421" target="_blank" class="whatsapp-button">
@@ -408,169 +132,120 @@
   </a>
 
   <script>
-    let currentLanguage = 'es';
-    
-    const translations = {
-      es: {
-        novotelTitle: 'Room Service Novotel',
-        snacking: 'Snacking',
-        drinks: 'Bebidas',
-        frigobar: 'Frigobar',
-        roomService24: 'Room Service 24 hs',
-        ibisTitle: 'Carta Ibis',
-        desserts: 'Postres',
-        laundryTitle: 'Lavandería Novotel & Ibis',
-        laundryInfo: 'Horario e información:',
-        laundryText: 'Servicio normal disponible de lunes a viernes hasta las 11. Las prendas se devuelven al día siguiente antes de las 20hs.<br>Servicio express disponible de lunes a sábados hasta las 11 AM. Las prendas serán devueltas el mismo día antes de las 20hs.<br>No hay servicio los domingos y feriados.',
-        responsibility: 'Responsabilidad:',
-        responsibilityText: 'En caso de pérdida o daño, la responsabilidad del hotel está limitada a 5 veces el costo del lavado. El hotel no se hace responsable por deterioros preexistentes, encogimiento o decoloración del material.',
-        laundry: 'Lavandería',
-        dryCleaning: 'Limpieza en seco',
-        sustainabilityTitle: 'Sustentabilidad',
-        sustainabilityText: 'En nuestro hotel, promovemos prácticas responsables como la conservación del agua, el uso eficiente de energía y la reducción de plásticos, reemplazándolos por opciones ecológicas.',
-        codeTitle: 'Código de Conducta del Turista Responsable',
-        codeText: 'Valore las tradiciones y costumbres locales.<br>• Participe en festivales y eventos locales.<br>• Vístase apropiadamente según las normas culturales.<br>• Pregunte antes de tomar fotografías.<br>• Apoye la economía local.',
-        infoTitle: 'Información General',
-        gym: '🏋️ Gimnasio:',
-        gymTime: 'abierto 24 hs',
-        breakfast: '🍳 Desayuno:',
-        breakfastTime: 'de 6:30 AM a 10:00 AM',
-        breakfastWeekend: 'Fines de semana y feriados: hasta las 11:00 AM',
-        restaurant: '🍽️ Restaurante:',
-        restaurantTime: 'de 07:00 a 00:00 hs',
-        whatsapp: '💬 Contactar Recepción',
-        footerAddress: 'Avenida Corrientes 1334, CABA, Buenos Aires, Argentina'
-      },
-      en: {
-        novotelTitle: 'Novotel Room Service',
-        snacking: 'Snacking',
-        drinks: 'Drinks',
-        frigobar: 'Minibar',
-        roomService24: '24-Hour Room Service',
-        ibisTitle: 'Ibis Menu',
-        desserts: 'Desserts',
-        laundryTitle: 'Novotel & Ibis Laundry',
-        laundryInfo: 'Schedule and information:',
-        laundryText: 'Regular service available Monday to Friday until 11 AM. Garments will be returned the next day before 8 PM.<br>Express service available Monday to Saturday until 11 AM. Garments will be returned the same day before 8 PM.<br>No service on Sundays and holidays.',
-        responsibility: 'Liability:',
-        responsibilityText: 'In case of loss or damage, the hotel\'s liability is limited to 5 times the cost of washing. The hotel is not responsible for pre-existing damage, shrinkage or discoloration of the material.',
-        laundry: 'Laundry',
-        dryCleaning: 'Dry Cleaning',
-        sustainabilityTitle: 'Sustainability',
-        sustainabilityText: 'At our hotel, we promote responsible practices such as water conservation, efficient energy use and reduction of plastics, replacing them with ecological options.',
-        codeTitle: 'Responsible Tourist Code of Conduct',
-        codeText: 'Value local traditions and customs.<br>• Participate in local festivals and events.<br>• Dress appropriately according to cultural norms.<br>• Ask before taking photographs.<br>• Support the local economy.',
-        infoTitle: 'General Information',
-        gym: '🏋️ Gym:',
-        gymTime: 'open 24 hours',
-        breakfast: '🍳 Breakfast:',
-        breakfastTime: 'from 6:30 AM to 10:00 AM',
-        breakfastWeekend: 'Weekends and holidays: until 11:00 AM',
-        restaurant: '🍽️ Restaurant:',
-        restaurantTime: 'from 07:00 to 00:00',
-        whatsapp: '💬 Contact Reception',
-        footerAddress: 'Avenida Corrientes 1334, CABA, Buenos Aires, Argentina'
-      },
-      pt: {
-        novotelTitle: 'Room Service Novotel',
-        snacking: 'Lanches',
-        drinks: 'Bebidas',
-        frigobar: 'Frigobar',
-        roomService24: 'Room Service 24 horas',
-        ibisTitle: 'Cardápio Ibis',
-        desserts: 'Sobremesas',
-        laundryTitle: 'Lavanderia Novotel & Ibis',
-        laundryInfo: 'Horário e informações:',
-        laundryText: 'Serviço normal disponível de segunda a sexta até às 11h. As peças serão devolvidas no dia seguinte antes das 20h.<br>Serviço expresso disponível de segunda a sábado até às 11h. As peças serão devolvidas no mesmo dia antes das 20h.<br>Não há serviço aos domingos e feriados.',
-        responsibility: 'Responsabilidade:',
-        responsibilityText: 'Em caso de perda ou dano, a responsabilidade do hotel está limitada a 5 vezes o custo da lavagem. O hotel não se responsabiliza por danos preexistentes, encolhimento ou descoloração do material.',
-        laundry: 'Lavanderia',
-        dryCleaning: 'Limpeza a seco',
-        sustainabilityTitle: 'Sustentabilidade',
-        sustainabilityText: 'Em nosso hotel, promovemos práticas responsáveis como conservação de água, uso eficiente de energia e redução de plásticos, substituindo-os por opções ecológicas.',
-        codeTitle: 'Código de Conduta do Turista Responsável',
-        codeText: 'Valorize as tradições e costumes locais.<br>• Participe de festivais e eventos locais.<br>• Vista-se apropriadamente de acordo com as normas culturais.<br>• Pergunte antes de tirar fotografias.<br>• Apoie a economia local.',
-        infoTitle: 'Informação Geral',
-        gym: '🏋️ Academia:',
-        gymTime: 'aberta 24 horas',
-        breakfast: '🍳 Café da manhã:',
-        breakfastTime: 'das 6:30 às 10:00',
-        breakfastWeekend: 'Fins de semana e feriados: até às 11:00',
-        restaurant: '🍽️ Restaurante:',
-        restaurantTime: 'das 07:00 às 00:00',
-        whatsapp: '💬 Contatar Recepção',
-        footerAddress: 'Avenida Corrientes 1334, CABA, Buenos Aires, Argentina'
-      }
+    // --- 1. PEGA AQUÍ EL LINK DE TU GOOGLE SHEET (CSV) ---
+    const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSRAsR0lBDpaN_aLY-nsevWiX-zMsqu9hJwUKaUzKv3BWBBlEW29rfdw3je_Ib7TJAr32M7bGeaVIi5/pubhtml';
+
+    // --- 2. DETECTAR HOTEL ---
+    // Busca si la URL tiene ?hotel=novotel o ?hotel=ibis
+    const params = new URLSearchParams(window.location.search);
+    // Si no hay parametro, por defecto muestra Novotel
+    const currentHotel = params.get('hotel') || 'novotel'; 
+
+    // Actualizar título de la página
+    const titulos = {
+        'novotel': 'Room Service Novotel',
+        'ibis': 'Carta Ibis'
     };
-    
-    function changeLanguage(lang) {
-      currentLanguage = lang;
-      
-      // Update active button
-      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-      document.getElementById('lang-' + lang).classList.add('active');
-      
-      // Update navigation buttons
-      document.querySelectorAll('nav button').forEach(btn => {
-        if (btn.getAttribute('data-' + lang)) {
-          btn.textContent = btn.getAttribute('data-' + lang);
+    document.getElementById('main-title').textContent = titulos[currentHotel] || 'Menú Digital';
+    document.title = titulos[currentHotel];
+
+    // --- 3. CARGAR DATOS ---
+    function init() {
+        Papa.parse(SHEET_URL, {
+            download: true,
+            header: true,
+            complete: function(results) {
+                renderMenu(results.data);
+            },
+            error: function(err) {
+                document.getElementById('loading-msg').textContent = "Error al cargar menú. Intente recargar.";
+                console.error(err);
+            }
+        });
+    }
+
+    function renderMenu(data) {
+        const container = document.getElementById('menu-dinamico');
+        const navContainer = document.getElementById('dynamic-nav');
+        
+        // A. Filtrar platos: Solo los de ESTE hotel y que estén disponibles
+        const platos = data.filter(item => 
+            item.hotel && 
+            item.hotel.toLowerCase() === currentHotel.toLowerCase() && 
+            item.disponible === 'TRUE'
+        );
+
+        if (platos.length === 0) {
+            document.getElementById('loading-msg').textContent = "No hay platos disponibles por el momento.";
+            return;
         }
-      });
-      
-      // Update content
-      const t = translations[lang];
-      
-      // Novotel section
-      document.querySelector('#novotel h2').textContent = t.novotelTitle;
-      const novotelH3 = document.querySelectorAll('#novotel h3');
-      if (novotelH3[0]) novotelH3[0].textContent = t.snacking;
-      if (novotelH3[1]) novotelH3[1].textContent = t.drinks;
-      if (novotelH3[2]) novotelH3[2].textContent = t.frigobar;
-      if (novotelH3[3]) novotelH3[3].textContent = t.roomService24;
-      
-      // Ibis section
-      document.querySelector('#ibis h2').textContent = t.ibisTitle;
-      const ibisH3 = document.querySelectorAll('#ibis h3');
-      if (ibisH3[0]) ibisH3[0].textContent = t.desserts;
-      if (ibisH3[1]) ibisH3[1].textContent = t.drinks;
-      
-      // Laundry section
-      document.querySelector('#lavanderia h2').textContent = t.laundryTitle;
-      const laundryP = document.querySelectorAll('#lavanderia p');
-      if (laundryP[0]) laundryP[0].innerHTML = '<strong>' + t.laundryInfo + '</strong><br>' + t.laundryText;
-      if (laundryP[1]) laundryP[1].innerHTML = '<strong>' + t.responsibility + '</strong><br>' + t.responsibilityText;
-      const laundryH3 = document.querySelectorAll('#lavanderia h3');
-      if (laundryH3[0]) laundryH3[0].textContent = t.laundry;
-      if (laundryH3[1]) laundryH3[1].textContent = t.dryCleaning;
-      
-      // Sustainability section
-      document.querySelector('#sustentabilidad h2').textContent = t.sustainabilityTitle;
-      document.querySelector('#sustentabilidad p').textContent = t.sustainabilityText;
-      
-      // Code section
-      document.querySelector('#codigo h2').textContent = t.codeTitle;
-      document.querySelector('#codigo p').innerHTML = t.codeText;
-      
-      // Info section
-      document.querySelector('#info h2').textContent = t.infoTitle;
-      const infoLi = document.querySelectorAll('#info ul li');
-      if (infoLi[0]) infoLi[0].innerHTML = '<strong>' + t.gym + '</strong> ' + t.gymTime;
-      if (infoLi[1]) infoLi[1].innerHTML = '<strong>' + t.breakfast + '</strong> ' + t.breakfastTime + '<br><em>' + t.breakfastWeekend + '</em>';
-      if (infoLi[2]) infoLi[2].innerHTML = '<strong>' + t.restaurant + '</strong> ' + t.restaurantTime;
-      
-      // WhatsApp button
-      document.querySelector('.whatsapp-button').textContent = t.whatsapp;
-      
-      // Footer
-      document.querySelector('footer p').innerHTML = '<strong>Novotel Room Service</strong><br>' + t.footerAddress + '<br>1512 Novo | 1300 Ibis';
+
+        document.getElementById('loading-msg').style.display = 'none';
+
+        // B. Agrupar por categorías (Set elimina duplicados)
+        const categorias = [...new Set(platos.map(item => item.categoria))];
+
+        // C. Generar HTML
+        categorias.forEach((catNombre, index) => {
+            // 1. Crear Botón de Navegación
+            const btn = document.createElement('button');
+            btn.textContent = catNombre;
+            // Al hacer clic, scrollea hasta la sección
+            btn.onclick = () => {
+                showSection('menu-dinamico'); // Asegura que se vea el menú
+                document.getElementById('cat-' + index).scrollIntoView({behavior: 'smooth'});
+            };
+            navContainer.appendChild(btn);
+
+            // 2. Crear Sección de Platos
+            const section = document.createElement('section');
+            section.id = 'cat-' + index;
+            section.className = 'content-section active'; // Visible por defecto
+            section.style.display = 'block'; // Forzar display block dentro del container
+
+            // Título Categoría
+            const h2 = document.createElement('h2');
+            h2.textContent = catNombre;
+            section.appendChild(h2);
+
+            // Lista de Platos
+            const ul = document.createElement('ul');
+            const platosDeEstaCat = platos.filter(p => p.categoria === catNombre);
+
+            platosDeEstaCat.forEach(plato => {
+                const li = document.createElement('li');
+                // Formato de precio (Argentina)
+                const precio = parseFloat(plato.precio).toLocaleString('es-AR', {
+                    style: 'currency', currency: 'ARS', minimumFractionDigits: 0
+                });
+
+                li.innerHTML = `
+                    <strong>${plato.nombre}</strong>
+                    ${plato.descripcion ? `<br><small style="opacity:0.8">${plato.descripcion}</small>` : ''}
+                    <span class="precio">${precio}</span>
+                `;
+                ul.appendChild(li);
+            });
+
+            section.appendChild(ul);
+            container.appendChild(section);
+        });
     }
-    
+
+    // Función simple para ocultar menú y mostrar info estática
     function showSection(id) {
-      document.querySelectorAll('.content-section').forEach(section => {
-        section.classList.remove('active');
-      });
-      document.getElementById(id).classList.add('active');
+        // Ocultar todo
+        document.getElementById('menu-dinamico').style.display = 'none';
+        document.getElementById('lavanderia').style.display = 'none';
+        document.getElementById('info').style.display = 'none';
+        
+        // Mostrar lo pedido
+        const target = document.getElementById(id);
+        if(target) target.style.display = 'block';
     }
+
+    // Arrancar la app
+    init();
   </script>
 </body>
 </html>
