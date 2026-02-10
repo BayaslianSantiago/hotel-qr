@@ -7,7 +7,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   
   <style>
-    /* --- ESTILOS ORIGINALES --- */
+    /* --- ESTILOS --- */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -20,6 +20,7 @@
       background: linear-gradient(180deg, #0a1128 0%, #1a2947 100%);
       color: white; text-align: center; padding: 2em 1em;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      position: relative;
     }
     header h1 {
       font-size: 2.2em; font-weight: 300; letter-spacing: 2px;
@@ -87,7 +88,6 @@
       nav button { padding: 10px 18px; font-size: 0.9em; }
     }
 
-    /* Extras */
     .loader { text-align: center; padding: 40px; font-size: 1.2em; opacity: 0.8; }
     .precio { float: right; font-weight: bold; color: #1a2947; }
     .legal-box { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin-bottom: 20px; }
@@ -121,67 +121,73 @@
 
     <section id="lavanderia" class="content-section">
       <h2 id="title-lav">Lavandería</h2>
-      
       <div class="legal-box">
-          <p id="txt-lav-1"><strong>🕒 Horarios:</strong> Lunes a Viernes hasta las 11hs (Entrega día siguiente).</p>
-          <p id="txt-lav-2" style="font-size: 0.9em; opacity: 0.8; margin-top:10px;">
-          <strong>⚠️ Responsabilidad:</strong> Limitada a 5 veces el costo del lavado.
-          </p>
+          <p id="txt-lav-1"></p>
+          <p id="txt-lav-2" style="font-size: 0.9em; opacity: 0.8; margin-top:10px;"></p>
       </div>
-
       <div id="lista-precios-lavanderia"></div>
     </section>
 
     <section id="sustentabilidad" class="content-section">
       <h2 id="title-sus">Sustentabilidad</h2>
-      <p id="txt-sus">En nuestro hotel, promovemos prácticas responsables como la conservación del agua y reducción de plásticos.</p>
+      <p id="txt-sus"></p>
     </section>
 
     <section id="codigo" class="content-section">
       <h2 id="title-cod">Código de Conducta</h2>
-      <p id="txt-cod">Valore las tradiciones locales, participe en festivales y apoye la economía local.</p>
+      <p id="txt-cod"></p>
     </section>
 
     <section id="info" class="content-section">
       <h2 id="title-info">Información General</h2>
       <ul>
-        <li><strong id="lbl-gym">🏋️ Gimnasio:</strong> abierto 24 hs</li>
-        <li><strong id="lbl-bkf">🍳 Desayuno:</strong> 6:30 AM - 10:00 AM</li>
-        <li><strong id="lbl-rst">🍽️ Restaurante:</strong> 07:00 - 00:00 hs</li>
+        <li><strong id="lbl-gym"></strong> 24 hs</li>
+        <li><strong id="lbl-bkf"></strong> 6:30 AM - 10:00 AM</li>
+        <li><strong id="lbl-rst"></strong> 07:00 - 00:00 hs</li>
       </ul>
     </section>
   </main>
 
   <footer>
-    <p><strong>Novotel & Ibis</strong><br>
-    Avenida Corrientes 1334, CABA</p>
+    <p><strong id="footer-hotel-name"></strong><br>
+    <span id="footer-hotel-address"></span></p>
   </footer>
 
-  <a href="https://wa.me/541163534421" target="_blank" class="whatsapp-button">
+  <a href="#" id="whatsapp-link" target="_blank" class="whatsapp-button">
     💬 WhatsApp
   </a>
 
   <script>
     // --- 1. CONFIGURACIÓN ---
-    // Link corregido con output=csv
     const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSRAsR0lBDpaN_aLY-nsevWiX-zMsqu9hJwUKaUzKv3BWBBlEW29rfdw3je_Ib7TJAr32M7bGeaVIi5/pub?output=csv';
 
     let currentLanguage = 'es'; 
     let allData = [];
 
-    // Detectar Hotel
     const params = new URLSearchParams(window.location.search);
     const currentHotel = params.get('hotel') || 'novotel'; 
 
-    // Textos estáticos de la interfaz (Títulos y Botones)
+    // Configuración específica de cada hotel
+    const hotelConfigs = {
+        novotel: {
+            nombre: "Novotel Buenos Aires",
+            direccion: "Av. Corrientes 1334, CABA",
+            whatsapp: "541163534421",
+            msg: { es: "Hola Novotel! Quería consultar por el Room Service.", en: "Hello Novotel! I'd like to ask about Room Service.", pt: "Olá Novotel! Gostaria de saber sobre o Room Service." }
+        },
+        ibis: {
+            nombre: "Ibis Buenos Aires Obelisco",
+            direccion: "Av. Corrientes 1344, CABA",
+            whatsapp: "541158384269",
+            msg: { es: "Hola Ibis! Quería consultar por la carta del restaurante.", en: "Hello Ibis! I'd like to see the restaurant menu.", pt: "Olá Ibis! Gostaria de ver o cardápio do restaurante." }
+        }
+    };
+
     const uiTranslations = {
         es: {
             titles: { novotel: 'Room Service Novotel', ibis: 'Carta Ibis', lav: 'Lavandería', info: 'Información', sus: 'Sustentabilidad', cod: 'Código de Conducta' },
             btns: { lav: 'Lavandería', info: 'Información', sus: 'Sustentabilidad', cod: 'Código Turista' },
-            legal: { 
-                t1: '🕒 Horarios: Lunes a Viernes hasta las 11hs.', 
-                t2: '⚠️ Responsabilidad: Limitada a 5 veces el costo.'
-            },
+            legal: { t1: '🕒 Horarios: Lunes a Viernes hasta las 11hs.', t2: '⚠️ Responsabilidad: Limitada a 5 veces el costo.' },
             info: { gym: '🏋️ Gimnasio:', bkf: '🍳 Desayuno:', rst: '🍽️ Restaurante:' },
             sus: 'Promovemos prácticas responsables y reducción de plásticos.',
             cod: 'Valore las tradiciones y apoye la economía local.'
@@ -189,10 +195,7 @@
         en: {
             titles: { novotel: 'Novotel Room Service', ibis: 'Ibis Menu', lav: 'Laundry', info: 'Information', sus: 'Sustainability', cod: 'Tourist Code' },
             btns: { lav: 'Laundry', info: 'Info', sus: 'Sustainability', cod: 'Tourist Code' },
-            legal: { 
-                t1: '🕒 Schedule: Mon-Fri until 11 AM.', 
-                t2: '⚠️ Liability: Limited to 5 times the cost.'
-            },
+            legal: { t1: '🕒 Schedule: Mon-Fri until 11 AM.', t2: '⚠️ Liability: Limited to 5 times the cost.' },
             info: { gym: '🏋️ Gym:', bkf: '🍳 Breakfast:', rst: '🍽️ Restaurant:' },
             sus: 'We promote responsible practices and plastic reduction.',
             cod: 'Value local traditions and support the local economy.'
@@ -200,10 +203,7 @@
         pt: {
             titles: { novotel: 'Room Service Novotel', ibis: 'Cardápio Ibis', lav: 'Lavanderia', info: 'Informação', sus: 'Sustentabilidade', cod: 'Código de Conduta' },
             btns: { lav: 'Lavanderia', info: 'Info', sus: 'Sustentabilidade', cod: 'Código' },
-            legal: { 
-                t1: '🕒 Horários: Seg-Sex até às 11h.', 
-                t2: '⚠️ Responsabilidade: Limitada a 5 vezes o custo.'
-            },
+            legal: { t1: '🕒 Horários: Seg-Sex até às 11h.', t2: '⚠️ Responsabilidade: Limitada a 5 vezes o custo.' },
             info: { gym: '🏋️ Academia:', bkf: '🍳 Café da Manhã:', rst: '🍽️ Restaurante:' },
             sus: 'Promovemos práticas responsáveis e redução de plásticos.',
             cod: 'Valorize as tradições e apoie a economia local.'
@@ -212,9 +212,7 @@
 
     // --- 2. INICIALIZAR ---
     function init() {
-        // Poner títulos iniciales
         updateStaticUI();
-
         Papa.parse(SHEET_URL, {
             download: true, header: true,
             complete: function(results) {
@@ -222,48 +220,40 @@
                 renderApp();
             },
             error: function(err) {
-                document.getElementById('loading-msg').textContent = "Error de conexión / Connection error";
+                document.getElementById('loading-msg').textContent = "Error de conexión";
             }
         });
     }
 
-    // --- 3. CAMBIAR IDIOMA ---
     function changeLanguage(lang) {
         currentLanguage = lang;
-        // Botones activos
         document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById('lang-' + lang).classList.add('active');
-        
-        // Actualizar textos fijos y redibujar menú
         updateStaticUI();
         renderApp();
-        
-        // Si estaba viendo lavandería, redibujarla
-        if(document.getElementById('lavanderia').style.display === 'block') {
-            renderLaundry();
-        }
+        if(document.getElementById('lavanderia').style.display === 'block') renderLaundry();
     }
 
     function updateStaticUI() {
         const t = uiTranslations[currentLanguage];
-        // Título Principal
+        const config = hotelConfigs[currentHotel] || hotelConfigs.novotel;
+
+        // Títulos
         const mainTitle = currentHotel === 'novotel' ? t.titles.novotel : t.titles.ibis;
         document.getElementById('main-title').textContent = mainTitle;
         document.title = mainTitle;
 
-        // Botones Fijos
+        // Botones y Secciones
         document.getElementById('btn-lav').textContent = t.btns.lav;
         document.getElementById('btn-info').textContent = t.btns.info;
         document.getElementById('btn-sus').textContent = t.btns.sus;
         document.getElementById('btn-cod').textContent = t.btns.cod;
-
-        // Títulos de Secciones
         document.getElementById('title-lav').textContent = t.titles.lav;
         document.getElementById('title-info').textContent = t.titles.info;
         document.getElementById('title-sus').textContent = t.titles.sus;
         document.getElementById('title-cod').textContent = t.titles.cod;
 
-        // Textos varios
+        // Textos legales e info
         document.getElementById('txt-lav-1').innerHTML = `<strong>${t.legal.t1}</strong>`;
         document.getElementById('txt-lav-2').innerHTML = `<strong>${t.legal.t2}</strong>`;
         document.getElementById('lbl-gym').textContent = t.info.gym;
@@ -271,13 +261,19 @@
         document.getElementById('lbl-rst').textContent = t.info.rst;
         document.getElementById('txt-sus').textContent = t.sus;
         document.getElementById('txt-cod').textContent = t.cod;
+
+        // CONTACTOS DINÁMICOS (Novotel vs Ibis)
+        document.getElementById('footer-hotel-name').textContent = config.nombre;
+        document.getElementById('footer-hotel-address').textContent = config.direccion;
+        
+        const mensajeWa = encodeURIComponent(config.msg[currentLanguage]);
+        document.getElementById('whatsapp-link').href = `https://wa.me/${config.whatsapp}?text=${mensajeWa}`;
     }
 
-    // --- 4. RENDERIZAR MENÚ (COMIDA) ---
+    // --- 4. RENDERIZAR MENÚ ---
     function renderApp() {
         const container = document.getElementById('menu-dinamico');
         const navContainer = document.getElementById('dynamic-nav');
-        
         container.innerHTML = '';
         navContainer.innerHTML = '';
 
@@ -285,11 +281,8 @@
         const colDesc = `descripcion_${currentLanguage}`;
         const colCat = `categoria_${currentLanguage}`;
 
-        // Filtrar platos del hotel
         const platos = allData.filter(item => 
-            item.hotel && 
-            item.hotel.toLowerCase() === currentHotel.toLowerCase() && 
-            item.disponible === 'TRUE'
+            item.hotel && item.hotel.toLowerCase() === currentHotel.toLowerCase() && item.disponible === 'TRUE'
         );
 
         if (platos.length === 0 && allData.length > 0) {
@@ -299,22 +292,20 @@
              document.getElementById('loading-msg').style.display = 'none';
         }
 
-        // Agrupar categorías
         const categorias = [...new Set(platos.map(item => item[colCat]))];
 
         categorias.forEach((catNombre, index) => {
             if (!catNombre) return;
-
-            // Botón Nav
             const btn = document.createElement('button');
             btn.textContent = catNombre;
             btn.onclick = () => {
                 showSection('menu-dinamico');
-                document.getElementById('cat-' + index).scrollIntoView({behavior: 'smooth'});
+                setTimeout(() => {
+                    document.getElementById('cat-' + index).scrollIntoView({behavior: 'smooth'});
+                }, 50);
             };
             navContainer.appendChild(btn);
 
-            // Sección
             const section = document.createElement('section');
             section.id = 'cat-' + index;
             section.className = 'content-section active';
@@ -325,58 +316,37 @@
             section.appendChild(h2);
 
             const ul = document.createElement('ul');
-            const platosCat = platos.filter(p => p[colCat] === catNombre);
-
-            platosCat.forEach(plato => {
+            platos.filter(p => p[colCat] === catNombre).forEach(plato => {
                 const li = document.createElement('li');
-                const precio = parseFloat(plato.precio).toLocaleString('es-AR', {
-                    style: 'currency', currency: 'ARS', minimumFractionDigits: 0
-                });
-
-                li.innerHTML = `
-                    <strong>${plato[colNombre]}</strong>
-                    ${plato[colDesc] ? `<br><small style="opacity:0.8">${plato[colDesc]}</small>` : ''}
-                    <span class="precio">${precio}</span>
-                `;
+                const pVal = parseFloat(plato.precio) || 0;
+                const precio = pVal.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 });
+                li.innerHTML = `<strong>${plato[colNombre]}</strong>${plato[colDesc] ? `<br><small style="opacity:0.8">${plato[colDesc]}</small>` : ''}<span class="precio">${precio}</span>`;
                 ul.appendChild(li);
             });
-
             section.appendChild(ul);
             container.appendChild(section);
         });
     }
 
-    // --- 5. RENDERIZAR LAVANDERÍA ---
     function renderLaundry() {
         showSection('lavanderia');
         const container = document.getElementById('lista-precios-lavanderia');
         container.innerHTML = '';
-
         const colNombre = `nombre_${currentLanguage}`;
         const colCat = `categoria_${currentLanguage}`;
-
-        const items = allData.filter(item => 
-            item.hotel === 'lavanderia' && item.disponible === 'TRUE'
-        );
-
+        const items = allData.filter(item => item.hotel === 'lavanderia' && item.disponible === 'TRUE');
         const categorias = [...new Set(items.map(item => item[colCat]))];
 
         categorias.forEach(catNombre => {
             if (!catNombre) return;
-            
             const h3 = document.createElement('h3');
             h3.textContent = catNombre;
             container.appendChild(h3);
-
             const ul = document.createElement('ul');
-            const prendas = items.filter(p => p[colCat] === catNombre);
-
-            prendas.forEach(prenda => {
+            items.filter(p => p[colCat] === catNombre).forEach(prenda => {
                 const li = document.createElement('li');
-                const precio = parseFloat(prenda.precio).toLocaleString('es-AR', {
-                    style: 'currency', currency: 'ARS', minimumFractionDigits: 0
-                });
-
+                const pVal = parseFloat(prenda.precio) || 0;
+                const precio = pVal.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 });
                 li.innerHTML = `<strong>${prenda[colNombre]}</strong><span class="precio">${precio}</span>`;
                 ul.appendChild(li);
             });
@@ -388,10 +358,9 @@
         const sections = ['menu-dinamico', 'lavanderia', 'info', 'sustentabilidad', 'codigo'];
         sections.forEach(sec => {
             const el = document.getElementById(sec);
-            if(el) el.style.display = 'none';
+            if(el) el.style.display = (sec === id) ? 'block' : 'none';
         });
-        const target = document.getElementById(id);
-        if(target) target.style.display = 'block';
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
     init();
